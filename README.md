@@ -8,12 +8,12 @@ Files Overview:
 ---
 1. **"all players.csv":** CSV file containing original data pulled from BBALL-Reference
 
-2. **"all players percentile ver lineup filtered.xlsx":** Excel Spreadsheet containing percentile converted data for only selected five players per team
+2. **"all players percentile ver lineup filtered.xlsx":** Excel Spreadsheet containing percentile converted data for only selected five players per team and stacked radar chart format visualizations for each team
 
-3. **"all players percentile ver lineup filtered.csv":** CSV version of Item 2
+3. **"all players percentile ver lineup filtered.csv":** CSV version of percentile converted data for selected five players per team
 
 4. **"balance scores.xlsx":** Excel Spreadsheet containing graphs of lineup balance scores vs. +/- rating
 
-5. **"balance charts.py":** main python script for running balance charts visualizations and calculating balance scores
+5. **"balance charts.py":** main python script for running balance charts visualizations (formatted as overlapping radar charts) and calculating balance scores
 
 6. **"radar.py":** python script for drawing radar charts
