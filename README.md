@@ -2,6 +2,8 @@
 
 Files relevant to visualizations and balance score calculations in http://fansided.com/2016/12/26/nylon-calculus-visualizing-lineup-balance-team-fit/
 
+Please credit Senthil S. Natarajan if using or modifying the work contained herein, or contact via Twitter @SENTHIS
+
 Files Overview:
 ---
 1. **"all players.csv":** CSV file containing original data pulled from BBALL-Reference
