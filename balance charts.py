@@ -3,10 +3,11 @@ import matplotlib
 matplotlib.use('TkAgg')
 from matplotlib import pyplot as plt
 from radar import radar_graph
+from radar import stacked_radar
 
 # import and look at centers data
 with open("allplayers percentile ver lineup filtered.csv", 'r') as myFile:
-    dataLines = myFile.readlines()
+    dataLines = myFile.read().splitlines()
 
 data_temp = []
 for z in range(1, len(dataLines)):
@@ -42,16 +43,16 @@ graph_name = ''
 
 # uncomment below block to run quick tests on one lineup at a time
 '''
-for n in data[10:15]:
+for n in data[5:10]:
     print n
     ind = data.index(n)
-    graph_name = "Overlapping Lineups - DEN"
+    graph_name = "Lineups - BOS"
     name = n[-2]
     legend_names.append(n[-2])
     cases.append(n[:-2])
 
-graph_areas = radar_graph(graph_name, label, legend_names, cases[0], cases[1], cases[2], cases[3], cases[4])
-print graph_areas
+graph_balance = stacked_radar(graph_name, label, legend_names, cases[0], cases[1], cases[2], cases[3], cases[4])
+print "balance :", graph_balance
 '''
 
 count = 0
@@ -69,18 +70,15 @@ for n in data:
     if (count % 5) == 0:
         count = 0
         # print radar chart
-        graph_areas = radar_graph(graph_name, label, legend_names, cases[0], cases[1], cases[2], cases[3], cases[4])
-        print graph_name, ":", graph_areas
+        graph_balance = stacked_radar(graph_name, label, legend_names, cases[0], cases[1], cases[2], cases[3], cases[4])
+        print graph_name, ":", graph_balance
 
         # A rough measure of "balance" is simply by calculating what percentage of the figure area
         # is totally filled in by the actual players' radar charts
         # Add all five together and take as percentage of (5*area of regular heptadecagon)
         # Essentially asking, how little white space is there, and how well is it filled in?
         # area of a heptadecagon (17 sides) with circumradius 100 is 30705.5
-
-        hepta_area = 30705.5
-        balance = int(100 * (sum(graph_areas))/(5 * hepta_area))
-        print "balance :", balance
+        # area of a heptadecagon (17 sides) with circumradius 500 (in a stacked radar) is ~767639
 
     # reset iteration variables to prepare for next radar chart
     if ((ind+1) % 5) == 0:
