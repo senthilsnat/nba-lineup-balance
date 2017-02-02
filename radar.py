@@ -7,11 +7,13 @@ from matplotlib.spines import Spine
 from matplotlib.projections.polar import PolarAxes
 from matplotlib.projections import register_projection
 
+
 # function to convert polar coordinates into cartesian coordinates
 def pol2cart(rho, phi):
     x = rho * np.cos(phi)
     y = rho * np.sin(phi)
     return x, y
+
 
 # function to find area of a polygon given its vertices
 def area_of_polygon(x, y):
@@ -59,7 +61,6 @@ def _radar_factory(num_vars):
             # print "area =", area_of_polygon(xx, yy)
             # print "break..."
             return area_of_polygon(xx, yy)
-
 
         def _close_line(self, line):
             x, y = line.get_data()
@@ -121,4 +122,49 @@ def radar_graph(header, labels=[], leg=[], case1=[], case2=[], case3=[], case4=[
     plt.savefig(header + ".png", dpi=100)
     plt.show()
 
-    return areas
+    hepta_area = 30705.5
+    balance = int(100 * (sum(areas))/(5 * hepta_area))
+    print "balance :", balance
+
+    return balance
+
+
+def stacked_radar(header, labels=[], leg=[], case1=[], case2=[], case3=[], case4=[], case5=[]):
+    N = len(labels)
+    theta = _radar_factory(N)
+    fig = plt.figure(figsize=(9, 9))
+    fig.subplots_adjust(left=0, wspace=0.25, hspace=0.20, top=0.85, bottom=0.05)
+    ax = fig.add_subplot(1, 1, 1, projection='radar')
+
+    plt1 = ax.plot(theta, [sum(x) for x in zip(case1, case2, case3, case4, case5)], color='#ec644b')
+    plt2 = ax.plot(theta, [sum(x) for x in zip(case2, case3, case4, case5)], color='#9b59b6')
+    plt3 = ax.plot(theta, [sum(x) for x in zip(case3, case4, case5)], color='#19b5fe')
+    plt4 = ax.plot(theta, [sum(x) for x in zip(case4, case5)], color='#2ecc71')
+    plt5 = ax.plot(theta, case5, color='#f9bf3b')
+
+    skeleton = ax.plot(theta, [500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500],
+                       color='k')
+
+    areas = [plt1]
+
+    ax.fill(theta, [sum(x) for x in zip(case1, case2, case3, case4, case5)], color='#ec644b', alpha=1)
+    ax.fill(theta, [sum(x) for x in zip(case2, case3, case4, case5)], color='#9b59b6', alpha=1)
+    ax.fill(theta, [sum(x) for x in zip(case3, case4, case5)], color='#19b5fe', alpha=1)
+    ax.fill(theta, [sum(x) for x in zip(case4, case5)], color='#2ecc71', alpha=1)
+    ax.fill(theta, case5, color='#f9bf3b', alpha=1)
+
+    ax.set_varlabels(labels)
+    ax.set_title(header, weight='bold', size='large', position=(0.5, 1.1),
+                 horizontalalignment='center', verticalalignment='center')
+
+    legend = plt.legend(leg, loc=(0.9, .95), labelspacing=0.1)
+    plt.setp(legend.get_texts(), fontsize='small')
+
+    plt.savefig(header + ".png", dpi=100)
+    plt.show()
+
+    hepta_area = 767639
+    balance = round(100 * (sum(areas))/hepta_area)
+    print "balance :", balance
+
+    return balance
